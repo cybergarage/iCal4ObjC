@@ -16,8 +16,15 @@
 - (id)init
 {
 	if ((self = [super init])) {
+		parameters = [[NSMutableArray alloc] init];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+	[parameters release];
+	[super dealloc];
 }
 
 #pragma mark -

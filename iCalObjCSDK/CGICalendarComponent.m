@@ -94,6 +94,14 @@
     return self;
 }
 
+- (void)dealloc
+{
+	[type release];
+	[components release];
+	[properties release];
+	[super dealloc];
+}
+
 #pragma mark -
 #pragma mark Component
 

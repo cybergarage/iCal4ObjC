@@ -21,6 +21,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[value release];
+	[name release];
+	[super dealloc];
+}
+
 - (BOOL)hasName
 {
 	if ([self name] != nil && 0 < [[self name] length])

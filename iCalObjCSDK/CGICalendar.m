@@ -59,6 +59,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[parserStack release];
+	[objects release];
+	[super dealloc];
+}
+
 #pragma mark -
 #pragma mark Object
 
@@ -186,7 +193,12 @@
 
 - (void)clearParserObjects
 {
-    [self setParserStack:[NSMutableArray array]];
+	if( [self parserStack] ) {
+		[[self parserStack] removeAllObjects];
+	}
+	else {
+		[self setParserStack:[NSMutableArray array]];
+	}
 }
 
 #pragma mark -
