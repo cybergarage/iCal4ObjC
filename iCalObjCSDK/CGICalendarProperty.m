@@ -182,7 +182,7 @@
     for (CGICalendarParameter *icalParam in [self parameters])
         [propertyString appendFormat:@";%@", [icalParam description]];
         
-    [propertyString appendFormat:@"%:%@%@", ((0 < [[self value] length]) ? [self value] : @""), CG_ICALENDAR_CONTENTLINE_TERM];
+    [propertyString appendFormat:@":%@%@", ((0 < [[self value] length]) ? [self value] : @""), CG_ICALENDAR_CONTENTLINE_TERM];
     
     return propertyString;
 }
