@@ -59,6 +59,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[parserStack release];
+	[objects release];
+	[super dealloc];
+}
+
 #pragma mark -
 #pragma mark Object
 
@@ -79,7 +86,7 @@
 {
     return [NSError errorWithDomain:@"iCalForObjC" code:-1 userInfo:
             [NSDictionary dictionaryWithObjectsAndKeys:
-             [NSString stringWithFormat:@"%d", lineString], @"LineNumber",
+             [NSString stringWithFormat:@"%d", lineNumber], @"LineNumber",
              lineString, @"ContentLine",
              nil]];
 }
@@ -186,7 +193,12 @@
 
 - (void)clearParserObjects
 {
-    [self setParserStack:[NSMutableArray array]];
+	if( [self parserStack] ) {
+		[[self parserStack] removeAllObjects];
+	}
+	else {
+		[self setParserStack:[NSMutableArray array]];
+	}
 }
 
 #pragma mark -

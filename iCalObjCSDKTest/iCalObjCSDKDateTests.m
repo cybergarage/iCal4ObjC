@@ -16,12 +16,14 @@
     NSDate *icalDate = [NSDate dateWithICalendarString:@"20110513T231201"];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeZone:(NSTimeZone *)[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
     [dateFormatter setTimeStyle:NSDateFormatterFullStyle];
     [dateFormatter setDateFormat:@"YYYY-MM-dd kk:mm:ss"];
     NSDate *iso8601Date = [dateFormatter dateFromString:@"2011-05-13 23:12:01"];
-    
+    [dateFormatter release];
+	
     STAssertTrue([icalDate compare:iso8601Date] == NSOrderedSame, @"");
-    STAssertTrue([[icalDate descriptionICalendar] isEqualToString:@"20110513T231201"], @"");
+    STAssertTrue([[icalDate descriptionICalendar] isEqualToString:@"20110513T231201Z"], @"");
 }
 
 @end

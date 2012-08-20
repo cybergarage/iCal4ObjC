@@ -16,8 +16,15 @@
 - (id)init
 {
 	if ((self = [super init])) {
+		parameters = [[NSMutableArray alloc] init];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+	[parameters release];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -175,7 +182,7 @@
     for (CGICalendarParameter *icalParam in [self parameters])
         [propertyString appendFormat:@";%@", [icalParam description]];
         
-    [propertyString appendFormat:@"%:%@%@", ((0 < [[self value] length]) ? [self value] : @""), CG_ICALENDAR_CONTENTLINE_TERM];
+    [propertyString appendFormat:@":%@%@", ((0 < [[self value] length]) ? [self value] : @""), CG_ICALENDAR_CONTENTLINE_TERM];
     
     return propertyString;
 }
