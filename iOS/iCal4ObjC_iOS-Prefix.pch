@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'iCal4ObjC_iOS' target in the 'iCal4ObjC_iOS' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif
