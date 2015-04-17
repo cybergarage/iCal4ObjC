@@ -8,7 +8,7 @@ iCal4ObjC is a Objective-C implementation of the iCalendar specification as defi
 
 ---++ Recent Updates
 
-v 1.0.0 - ARC Support
+v 1.1.0 - ARC Support, CocoaPod specification
 
 ---++ Installation
 
