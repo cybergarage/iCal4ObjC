@@ -13,6 +13,6 @@ s.platform     = :ios, "5.0"
 s.source       = { :git => "https://github.com/Good-Technology-OS/iCal4ObjC.git", :tag => "1.1.0" }
 s.source_files  = "iCalObjCSDK"
 s.public_header_files = "iCalObjCSDK/*.h"
-s.frameworks = "Foundation", "AnotherFramework"
+s.frameworks = "Foundation"
 s.requires_arc = true
 end
