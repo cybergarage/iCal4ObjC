@@ -14,7 +14,7 @@
 
 + (id)dateWithICalendarString:(NSString *)aString
 {
-    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
 	[dateFormatter setTimeZone:timeZone];
     [dateFormatter setDateFormat:CGNSDATE_ICALENDAR_DATETMEFORMAT];
@@ -23,7 +23,7 @@
 
 + (id)dateWithICalendarISO8601:(NSString *)aString
 {
-    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeStyle:NSDateFormatterFullStyle];
     [dateFormatter setDateFormat:CGNSDATE_ISO8601_DATETMEFORMAT];
     return [dateFormatter dateFromString:aString];
@@ -31,7 +31,7 @@
 
 - (NSString *)descriptionICalendar
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
 	[dateFormatter setTimeZone:timeZone];
 	[dateFormatter setDateFormat:CGNSDATE_ICALENDAR_DATETMEFORMAT];
@@ -40,7 +40,7 @@
 
 - (NSString *)descriptionISO8601
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setLocale:[NSLocale systemLocale]];
 	[dateFormatter setDateFormat:CGNSDATE_ISO8601_DATETMEFORMAT];
 	return [dateFormatter stringFromDate:self];
