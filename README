@@ -6,6 +6,10 @@
 
 iCal4ObjC is a Objective-C implementation of the iCalendar specification as defined in [[http://tools.ietf.org/html/rfc2445][RFC2455]] for iOS and !MacOSX platforms such as iPhone and iPad. It supports to read or write the components of iCalendar in the stream easily. For more the information, please check [[http://www.cybergarage.org/doxygen/ical4objc/][the doxygen documentation]].
 
+---++ Recent Updates
+
+v 1.0.0 - ARC Support
+
 ---++ Installation
 
 ---+++ Getting SDK Package

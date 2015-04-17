@@ -9,7 +9,7 @@
 #import "CGICalendarContentLine.h"
 
 @interface CGICalendar()
-@property(retain) NSMutableArray *parserStack;
+@property(strong) NSMutableArray *parserStack;
 - (id)peekParserObject;
 - (id)popParserObject;
 - (void)pushParserObject:(id)object;
@@ -27,9 +27,9 @@
 + (NSString *)UUID
 {
 	CFUUIDRef uuid = CFUUIDCreate(nil);
-	NSString *uuidString = (NSString*)CFUUIDCreateString(nil, uuid);
+	NSString *uuidString = (NSString*)CFBridgingRelease(CFUUIDCreateString(nil, uuid));
 	CFRelease(uuid);
-	return [uuidString autorelease];    
+	return uuidString;    
 }
 
 #pragma mark -
@@ -79,7 +79,7 @@
 {
     return [NSError errorWithDomain:@"iCalForObjC" code:-1 userInfo:
             [NSDictionary dictionaryWithObjectsAndKeys:
-             [NSString stringWithFormat:@"%d", lineString], @"LineNumber",
+             [NSString stringWithFormat:@"%@", lineString], @"LineNumber",
              lineString, @"ContentLine",
              nil]];
 }
@@ -127,22 +127,19 @@
             }
             [icalComponent setType:[icalContentLine value]];
             [self pushParserObject:icalComponent];
-            [icalComponent release];
-            [icalContentLine release];
             continue;
         }
         
         // END
         if ([icalContentLine isEnd]) {
             [self popParserObject];
-            [icalContentLine release];
             continue;
         }
 
         NSString *propertyName = [icalContentLine name];
         CGICalendarProperty *icalProperty = [icalParentComponent propertyForName:propertyName];
         if (icalProperty == nil) {
-            icalProperty = [[[CGICalendarProperty alloc] init] autorelease];
+            icalProperty = [[CGICalendarProperty alloc] init];
             [icalProperty setName:propertyName];
             [icalParentComponent addProperty:icalProperty];
         }
@@ -150,7 +147,6 @@
         for (CGICalendarParameter *icalParameter in [icalContentLine parameters])
             [icalProperty setParameterValue:[icalParameter value] forName:[icalParameter name]];
         
-		[icalContentLine release];
 	}
 	
     return YES;
@@ -161,7 +157,7 @@
 	NSData *fileData = [NSData dataWithContentsOfFile:path];
 	if (fileData == nil)
 		return NO;
-    return [self parseWithString:[[[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding] autorelease] error:error];
+    return [self parseWithString:[[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding] error:error];
 }
 
 #pragma mark -
@@ -176,7 +172,7 @@
 {
 	id lastObject = [[self parserStack] lastObject];
     [[self parserStack] removeLastObject];
-	return [[lastObject retain] autorelease];
+	return lastObject;
 }
 
 - (void)pushParserObject:(id)object

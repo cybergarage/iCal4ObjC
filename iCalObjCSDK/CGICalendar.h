@@ -18,7 +18,7 @@
 @interface CGICalendar : NSObject {
 
 }
-@property(retain) NSMutableArray *objects;
+@property(strong) NSMutableArray *objects;
 
 + (NSString *)UUID;
 
