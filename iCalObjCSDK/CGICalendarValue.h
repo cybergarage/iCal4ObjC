@@ -29,8 +29,8 @@ enum {
 
 }
 @property(assign) int type;
-@property(retain) NSString *name;
-@property(retain) NSString *value;
+@property(strong) NSString *name;
+@property(strong) NSString *value;
 
 - (id)init;
 
@@ -44,7 +44,7 @@ enum {
 - (void)setDate:(NSDate *)value;
 
 - (NSDate *)dateValue;
-- (int)integerValue;
+- (NSInteger)integerValue;
 - (float)floatValue;
 
 @end

@@ -64,7 +64,7 @@
     return [NSDate dateWithICalendarString:[self value]];
 }
 
-- (int)integerValue
+- (NSInteger)integerValue
 {
     return [[self value] integerValue];
 }

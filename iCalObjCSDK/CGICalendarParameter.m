@@ -43,4 +43,8 @@
 			[self value] ? [self value] : @""];
 }
 
+- (NSString *)description
+{
+    return self.string;
+}
 @end

@@ -18,17 +18,17 @@
 
 + (id)object
 {
-    return [[[CGICalendarObject alloc] init] autorelease];
+    return [[CGICalendarObject alloc] init];
 }
 
 + (id)objectWithProdid:(NSString *)prodid
 {
-    return [[[CGICalendarObject alloc] initWithProdid:prodid] autorelease];
+    return [[CGICalendarObject alloc] initWithProdid:prodid];
 }
 
 + (id)objectWithProdid:(NSString *)prodid version:(NSString *)version
 {
-    return [[[CGICalendarObject alloc] initWithProdid:prodid version:version] autorelease];
+    return [[CGICalendarObject alloc] initWithProdid:prodid version:version];
 }
 
 #pragma mark -

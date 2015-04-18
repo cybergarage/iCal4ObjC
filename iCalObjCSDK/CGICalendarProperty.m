@@ -16,6 +16,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
+        self.parameters = [NSMutableArray array];
 	}
 	return self;
 }
@@ -53,7 +54,7 @@
 {
     CGICalendarParameter *icalProp = [self parameterForName:name];
     if (icalProp == nil) {
-        icalProp = [[[CGICalendarParameter alloc] init] autorelease];
+        icalProp = [[CGICalendarParameter alloc] init];
         [icalProp setName:name];
         [self addParameter:icalProp];
     }
@@ -85,12 +86,12 @@
     [self setParameterValue:[object descriptionICalendar] forName:name parameterValues:parameterValues parameterNames:parameterNames];
 }
 
-- (void)setParameterInteger:(int)value forName:(NSString *)name
+- (void)setParameterInteger:(NSInteger)value forName:(NSString *)name
 {
     [self setParameterValue:[[NSNumber numberWithInteger:value] stringValue] forName:name parameterValues:[NSArray array] parameterNames:[NSArray array]];
 }
 
-- (void)setParameterInteger:(int)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames
+- (void)setParameterInteger:(NSInteger)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames
 {
     [self setParameterValue:[[NSNumber numberWithInteger:value] stringValue] forName:name parameterValues:parameterValues parameterNames:parameterNames];
 }
@@ -145,7 +146,7 @@
     return nil;
 }
 
-- (int)parameterIntegerForName:(NSString *)name;
+- (NSInteger)parameterIntegerForName:(NSString *)name;
 {
     for (CGICalendarParameter *icalProp in [self parameters]) {
         if ([icalProp isName:name])
@@ -175,9 +176,11 @@
     for (CGICalendarParameter *icalParam in [self parameters])
         [propertyString appendFormat:@";%@", [icalParam description]];
         
-    [propertyString appendFormat:@"%:%@%@", ((0 < [[self value] length]) ? [self value] : @""), CG_ICALENDAR_CONTENTLINE_TERM];
+    [propertyString appendFormat:@":%@", ((0 < [[self value] length]) ? [self value] : @"")];
     
-    return propertyString;
+    NSString *foldedLine = [self foldPropertyLine:propertyString];
+    
+    return [NSString stringWithFormat:@"%@%@", foldedLine, CG_ICALENDAR_CONTENTLINE_TERM];
 }
 
 #pragma mark -
@@ -223,6 +226,36 @@
     }
     
     return CGICalendarParticipationStatusUnkown;
+}
+
+#pragma mark -
+#pragma mark Folding
+
+- (NSString *) foldPropertyLine:(NSString *)line
+{
+    const int maxLineLength = 75;
+    
+    if (line.length <= maxLineLength)
+        return line;
+    
+    NSMutableString *foldedLine = [[NSMutableString alloc] initWithCapacity:(line.length + 30)];
+    NSUInteger numOfSplits = (line.length/maxLineLength);
+    if ((line.length % maxLineLength) > 0)
+        numOfSplits++;
+    
+    for (NSUInteger splitNum = 1; splitNum <= numOfSplits; splitNum++)
+    {
+        int len = maxLineLength;
+        if (splitNum == numOfSplits)    // Last split line
+            len = (line.length % maxLineLength);
+        
+        NSString *splitLine = [line substringWithRange:NSMakeRange((splitNum-1)*maxLineLength, len)];
+        [foldedLine appendString:splitLine];
+        if (splitNum != numOfSplits)    // not last split line
+            [foldedLine appendString:@"\r\n "];     // RFC5545
+    }
+    
+    return foldedLine;
 }
 
 @end

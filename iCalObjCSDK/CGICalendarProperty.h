@@ -9,28 +9,29 @@
 #import "CGICalendarValue.h"
 #import "CGICalendarParameter.h"
 
-#define CG_ICALENDAR_PROERTY_PARTSTAT @"PARTSTAT"
+#define CG_ICALENDAR_PROPERTY_PARTSTAT @"PARTSTAT"
 
-#define CG_ICALENDAR_PROERTY_COMPLETED @"COMPLETED"
-#define CG_ICALENDAR_PROERTY_DTEND @"DTEND"
-#define CG_ICALENDAR_PROERTY_DUE @"DUE"
-#define CG_ICALENDAR_PROERTY_DTSTART @"DTSTART"
+#define CG_ICALENDAR_PROPERTY_COMPLETED @"COMPLETED"
+#define CG_ICALENDAR_PROPERTY_DTEND @"DTEND"
+#define CG_ICALENDAR_PROPERTY_DUE @"DUE"
+#define CG_ICALENDAR_PROPERTY_DTSTART @"DTSTART"
+#define CG_ICALENDAR_PROPERTY_RECURRENCE_ID @"RECURRENCE-ID"
 
 // 4.8.1 Descriptive Component Properties
 
-#define CG_ICALENDAR_PROERTY_DESCRIPTION @"DESCRIPTION"
-#define CG_ICALENDAR_PROERTY_PRIORITY @"PRIORITY"
-#define CG_ICALENDAR_PROERTY_SUMMARY @"SUMMARY"
+#define CG_ICALENDAR_PROPERTY_DESCRIPTION @"DESCRIPTION"
+#define CG_ICALENDAR_PROPERTY_PRIORITY @"PRIORITY"
+#define CG_ICALENDAR_PROPERTY_SUMMARY @"SUMMARY"
 
 // 4.8.4 Relationship Component Properties
-#define CG_ICALENDAR_PROERTY_UID @"UID"
+#define CG_ICALENDAR_PROPERTY_UID @"UID"
 
 // 4.8.7 Change Management Component Properties
 
-#define CG_ICALENDAR_PROERTY_CREATED @"CREATED"
-#define CG_ICALENDAR_PROERTY_DTSTAMP @"DTSTAMP"
-#define CG_ICALENDAR_PROERTY_LASTMODIFIED @"LAST-MODIFIED"
-#define CG_ICALENDAR_PROERTY_SEQUENCE @"SEQUENCE"
+#define CG_ICALENDAR_PROPERTY_CREATED @"CREATED"
+#define CG_ICALENDAR_PROPERTY_DTSTAMP @"DTSTAMP"
+#define CG_ICALENDAR_PROPERTY_LASTMODIFIED @"LAST-MODIFIED"
+#define CG_ICALENDAR_PROPERTY_SEQUENCE @"SEQUENCE"
 
 enum {
 	CGICalendarParticipationStatusUnkown = 0,
@@ -45,7 +46,7 @@ enum {
 
 @interface CGICalendarProperty : CGICalendarValue {
 }
-@property(retain) NSMutableArray *parameters;
+@property(strong) NSMutableArray *parameters;
 
 - (id)init;
 
@@ -59,8 +60,8 @@ enum {
 - (void)setParameterObject:(id)object forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 - (void)setParameterDate:(NSDate *)object forName:(NSString *)name;
 - (void)setParameterDate:(NSDate *)object forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
-- (void)setParameterInteger:(int)value forName:(NSString *)name;
-- (void)setParameterInteger:(int)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
+- (void)setParameterInteger:(NSInteger)value forName:(NSString *)name;
+- (void)setParameterInteger:(NSInteger)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 - (void)setParameterFloat:(float)value forName:(NSString *)name;
 - (void)setParameterFloat:(float)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 
@@ -69,10 +70,12 @@ enum {
 - (NSArray *)allParameterKeys;
 - (NSString *)parameterValueForName:(NSString *)name;
 - (NSDate *)parameterDateForName:(NSString *)name;
-- (int)parameterIntegerForName:(NSString *)name;
+- (NSInteger)parameterIntegerForName:(NSString *)name;
 - (float)parameterFloatForName:(NSString *)name;
 
 - (void)setParticipationStatus:(int)value;
 - (int)participationStatus;
+
+- (NSString *)foldPropertyLine:(NSString *)line;
 
 @end

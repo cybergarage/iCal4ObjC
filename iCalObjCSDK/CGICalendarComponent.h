@@ -18,9 +18,9 @@
 @interface CGICalendarComponent : NSObject {
 
 }
-@property(retain) NSString *type;
-@property(retain) NSMutableArray *components;
-@property(retain) NSMutableArray *properties;
+@property(strong) NSString *type;
+@property(strong) NSMutableArray *components;
+@property(strong) NSMutableArray *properties;
 
 + (id)componentWithType:(NSString *)type;
 + (id)event;
@@ -57,8 +57,8 @@
 - (void)setPropertyObject:(id)object forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 - (void)setPropertyDate:(NSDate *)object forName:(NSString *)name;
 - (void)setPropertyDate:(NSDate *)object forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
-- (void)setPropertyInteger:(int)value forName:(NSString *)name;
-- (void)setPropertyInteger:(int)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
+- (void)setPropertyInteger:(NSInteger)value forName:(NSString *)name;
+- (void)setPropertyInteger:(NSInteger)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 - (void)setPropertyFloat:(float)value forName:(NSString *)name;
 - (void)setPropertyFloat:(float)value forName:(NSString *)name parameterValues:(NSArray *)parameterValues parameterNames:(NSArray *)parameterNames;
 
@@ -68,7 +68,7 @@
 
 - (NSString *)propertyValueForName:(NSString *)name;
 - (NSDate *)propertyDateForName:(NSString *)name;
-- (int)propertyIntegerForName:(NSString *)name;
+- (NSInteger)propertyIntegerForName:(NSString *)name;
 - (float)propertyFloatForName:(NSString *)name;
 
 - (NSString *)description;
@@ -104,6 +104,10 @@
 // 4.8.2.4 Date/Time Start
 - (void)setDateTimeStart:(NSDate *)value;
 - (NSDate *)dateTimeStart;
+
+// 4.8.4.4 Recurrence ID
+- (void)setRecurrenceID:(NSDate *)value;
+- (NSDate *)recurrenceID;
 
 // 4.8.4.7 Unique Identifier
 - (void)setUID:(NSString *)value;
