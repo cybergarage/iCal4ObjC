@@ -33,6 +33,7 @@
 - (CGICalendarObject *)objectAtIndex:(NSUInteger)index;
 
 - (NSString *)description;
++ (NSString *)unescape:(NSString *)aValue;
 
 - (BOOL)writeToFile:(NSString *)path;
 
