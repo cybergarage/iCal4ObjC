@@ -135,7 +135,10 @@
             [self popParserObject];
             continue;
         }
-
+        
+        // Unescape escape sequences in value strings
+        icalContentLine.value = [CGICalendar unescape:icalContentLine.value];
+        
         NSString *propertyName = [icalContentLine name];
         CGICalendarProperty *icalProperty = [icalParentComponent propertyForName:propertyName];
         if (icalProperty == nil) {
@@ -196,6 +199,36 @@
         [descrString appendString:[icalObj description]];
     
     return descrString;
+}
+
+// Replace double-escaped sequences in values imported from the iCal with the appropriate escape sequences
++ (NSString *)unescape:(NSString *)aValue
+{
+    // For slashes
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\\\" withString:@"\\"];
+    // For double quotes
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+    // For single quotes
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\\'" withString:@"\'"];
+    // For line breaks
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\N" withString:@"\n"];
+    // For carriage returns
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\r" withString:@"\r"];
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\R" withString:@"\r"];
+    // For form feeds
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\f" withString:@"\f"];
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\F" withString:@"\f"];
+    // For tabs
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\t" withString:@"\t"];
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\T" withString:@"\t"];
+    // For commas
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\," withString:@","];
+    // For semicolons
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\;" withString:@";"];
+    // For colons
+    aValue = [aValue stringByReplacingOccurrencesOfString:@"\\:" withString:@":"];
+    return aValue;
 }
 
 #pragma mark -
